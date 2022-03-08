@@ -3,11 +3,13 @@
 namespace FMDD\SyliusAccountingExportationPlugin\Controller\Admin;
 
 use FMDD\SyliusAccountingExportationPlugin\Form\Type\PeriodType;
+use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShipmentInterface;
 use Sylius\Component\Core\OrderCheckoutStates;
 use Sylius\Component\Core\OrderPaymentStates;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
+use Sylius\Component\Order\Model\AdjustmentInterface as BaseAdjustmentInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,7 +30,6 @@ final class AccountingExportationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Assert retrieved data
             $data = $form->getData();
             $channels = $data['channels'];
             $from = $data['from']; $to = $data['to'];
@@ -56,18 +57,24 @@ final class AccountingExportationController extends AbstractController
         $fileName = 'accounting_' .  $date->format("Y-m-d") . '.csv';
         $delimiter = ';';
 
-        $content = 'Order Date;Number;Customer;Total (Tax Included);Total Items (Tax Excluded);Total Shipping (Tax Excluded);Total Taxes;Payment Date' . PHP_EOL;
+        $content = 'Order Date;Number;Customer;Total (Tax Included);Total Items (Tax Excluded);Total Shipping (Tax Excluded);Total Taxes;Total Discount;Payment Date' . PHP_EOL;
 
+
+        /** @var OrderInterface $order */
         foreach($orders as $order) {
             $name = empty($order->getCustomer()->getFullName()) ? $order->getCustomer()->getEmail() : $order->getCustomer()->getFullName();
+            $taxIncluded = $this->getIncludedTax($order);
+            $taxExcluded = $this->getExcludedTax($order);
+
             $content .=
                 $order->getCheckoutCompletedAt()->format("Y-m-d H:i") . $delimiter .
                 '#' . $order->getNumber() . $delimiter .
                 $name . $delimiter .
-                $order->getTotal() . $delimiter .
-                $order->getItemsTotal() . $delimiter .
-                $order->getShippingTotal() . $delimiter .
-                $order->getTaxTotal() . $delimiter .
+                ($order->getTotal() / 100) . $delimiter .
+                (($order->getItemsTotal() - $order->getTaxTotal()) / 100) . $delimiter .
+                (($order->getShippingTotal() - $taxIncluded) / 100) . $delimiter .
+                (($taxExcluded + $taxIncluded) / 100) . $delimiter .
+                ($order->getOrderPromotionTotal() / 100) . $delimiter .
                 $order->getLastPayment()->getUpdatedAt()->format("Y-m-d H:i") . PHP_EOL;
         }
 
@@ -100,5 +107,27 @@ final class AccountingExportationController extends AbstractController
             ->setParameter('channels', $channelsIds)
             ->getQuery()
             ->getResult();
+    }
+
+
+    public function getIncludedTax(OrderInterface $order): int
+    {
+        return $this->getAmount($order, true);
+    }
+
+    public function getExcludedTax(OrderInterface $order): int
+    {
+        return $this->getAmount($order, false);
+    }
+
+    private function getAmount(OrderInterface $order, bool $isNeutral): int
+    {
+        return array_reduce(
+            $order->getAdjustmentsRecursively(AdjustmentInterface::TAX_ADJUSTMENT)->toArray(),
+            static function (int $total, BaseAdjustmentInterface $adjustment) use ($isNeutral) {
+                return $isNeutral === $adjustment->isNeutral() ? $total + $adjustment->getAmount() : $total;
+            },
+            0
+        );
     }
 }
