@@ -1,0 +1,4 @@
+fmdd_accounting_exportation:
+  ui:
+    reports: 'Rapports'
+    accounting_exportation: 'Export comptable'

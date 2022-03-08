@@ -1,0 +1,3 @@
+fmdd_sylius_accounting_exportation_admin:
+  resource: "routes/admin.yaml"
+  prefix: /admin/fmdd

@@ -1,0 +1,16 @@
+<div class="ui hidden divider"></div>
+
+{{ form_start(form, {'action': path('fmdd_sylius_accounting_exportation_admin_index'), 'attr': {'class': 'ui loadable form', 'novalidate': 'novalidate'}}) }}
+<div class="ui segment">
+    <h2>{{ 'fmdd_accounting_exportation.ui.period_report'|trans }}</h2>
+    {{ form_row(form.from) }}
+    {{ form_row(form.to) }}
+    {{ form_row(form.channels) }}
+    <div class="ui basic segment">
+        <div class="ui buttons">
+            <button class="ui labeled icon primary button" type="submit"><i class="search icon"></i>{{ 'sylius.ui.generate'|trans }}</button>
+        </div>
+    </div>
+</div>
+{{ form_row(form._token) }}
+{{ form_end(form, {'render_rest': false}) }}

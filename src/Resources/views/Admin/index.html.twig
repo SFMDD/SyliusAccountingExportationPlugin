@@ -1,0 +1,13 @@
+{% extends '@SyliusAdmin/layout.html.twig' %}
+
+{% import '@SyliusUi/Macro/headers.html.twig' as headers %}
+
+{% form_theme form '@SyliusAdmin/Form/theme.html.twig' %}
+
+{% set header = 'fmdd_accounting_exportation.ui.accounting_exportation' %}
+{% block title %}{{ header|trans }} {{ parent() }}{% endblock %}
+
+{% block content %}
+    {% include('@FMDDSyliusAccountingExportationPlugin/Admin/_header.html.twig') %}
+    {% include('@FMDDSyliusAccountingExportationPlugin/Admin/_form.html.twig') %}
+{% endblock %}

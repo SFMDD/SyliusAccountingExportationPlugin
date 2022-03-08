@@ -1,0 +1,2 @@
+imports:
+  - { resource: "@FMDDSyliusAccountingExportationPlugin/Resources/config/services.yaml" }

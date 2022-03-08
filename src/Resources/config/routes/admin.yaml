@@ -1,0 +1,5 @@
+fmdd_sylius_accounting_exportation_admin_index:
+  path: /accounting_exportation/
+  methods: [GET, POST]
+  defaults:
+    _controller: FMDD\SyliusAccountingExportationPlugin\Controller\Admin\AccountingExportationController:indexAction
