@@ -1,4 +1,10 @@
 fmdd_accounting_exportation:
   ui:
+    period_report: 'Rapport sur la période'
     reports: 'Rapports'
-    accounting_exportation: 'Export comptable'
+    accounting_exportation: 'Exportation comptable'
+  form:
+    from_date:
+      label: 'Du'
+    to_date:
+      label: 'Au'
