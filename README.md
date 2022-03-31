@@ -1,5 +1,6 @@
 <p align="center">
     <a href="https://fm2d.com/" target="_blank">
+        <img src="https://fm2d.com/fm2d-theme/images/logo.png" width="200px" alt="FM2D logo" />
         <img src="https://demo.sylius.com/assets/shop/img/logo.png" width="200px" alt="Sylius logo" />
     </a>
 </p>
