@@ -84,5 +84,5 @@ This plugin's source code is completely free and released under the terms of the
 
 ---
 
-If you have any questions, feel free to contact us by filling our form on [our website](https://fm2d.com/contact-us/) or send us an e-mail at contact@fm2d.com with your question(s). We will anwser you as soon as possible !
+If you have any questions, feel free to contact us by filling our form on [our website](https://fm2d.com/contact/) or send us an e-mail at [contact@fm2d.com](mailto:contact@fm2d.com) with your question(s). We will anwser you as soon as possible !
 
