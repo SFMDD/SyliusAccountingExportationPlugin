@@ -48,8 +48,8 @@ composer require fmdd/sylius-accounting-exportation-plugin
 ```php
 <?php
 return [
-//..
-MonsieurBiz\SyliusSalesReportsPlugin\MonsieurBizSyliusSalesReportsPlugin::class => ['all' => true],
+    ...
+    FMDD\SyliusAccountingExportationPlugin\FMDDSyliusAccountingExportationPlugin::class => ['all' => true],
 ];
 ```
 
