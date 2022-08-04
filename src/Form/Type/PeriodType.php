@@ -18,20 +18,12 @@ class PeriodType extends AbstractType
             ->add('from', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'fmdd_accounting_exportation.form.from_date.label',
-                'required' => true,
-                'constraints' => [
-                    new Assert\Date([]),
-                    new Assert\NotBlank([]),
-                ],
+                'required' => true
             ])
             ->add('to', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'fmdd_accounting_exportation.form.to_date.label',
-                'required' => true,
-                'constraints' => [
-                    new Assert\Date([]),
-                    new Assert\NotBlank([]),
-                ],
+                'required' => true
             ])
             ->add('channels', ChannelChoiceType::class, [
                 'label' => 'sylius.ui.channels',

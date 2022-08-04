@@ -19,7 +19,7 @@ use Webmozart\Assert\Assert;
 final class AccountingExportationController extends AbstractController
 {
     private OrderRepositoryInterface $orderRepository;
-    
+
     public function __construct(OrderRepositoryInterface $orderRepository)
     {
         $this->orderRepository = $orderRepository;
@@ -48,7 +48,6 @@ final class AccountingExportationController extends AbstractController
 
         return $this->render('@FMDDSyliusAccountingExportationPlugin/Admin/index.html.twig', [
             'form' => $form->createView(),
-            'orders' => 'non submit',
         ]);
     }
 
