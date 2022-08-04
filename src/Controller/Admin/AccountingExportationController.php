@@ -5,11 +5,12 @@ namespace FMDD\SyliusAccountingExportationPlugin\Controller\Admin;
 use FMDD\SyliusAccountingExportationPlugin\Form\Type\PeriodType;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\Model\ShipmentInterface;
 use Sylius\Component\Core\OrderCheckoutStates;
 use Sylius\Component\Core\OrderPaymentStates;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\Component\Order\Model\AdjustmentInterface as BaseAdjustmentInterface;
+use Sylius\Component\Order\Model\OrderInterface as OrderInterfaceAlias;
+use Sylius\Component\Shipping\Model\ShipmentInterface as ShipmentInterfaceAlias;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -98,10 +99,10 @@ final class AccountingExportationController extends AbstractController
             ->andWhere('o.shippingState = :shipping')
             ->andWhere('o.checkoutCompletedAt BETWEEN :from AND :to')
             ->andWhere('c.code IN (:channels)')
-            ->setParameter('state', OrderInterface::STATE_FULFILLED)
+            ->setParameter('state', OrderInterfaceAlias::STATE_FULFILLED)
             ->setParameter('checkout', OrderCheckoutStates::STATE_COMPLETED)
             ->setParameter('payment', OrderPaymentStates::STATE_PAID)
-            ->setParameter('shipping', ShipmentInterface::STATE_SHIPPED)
+            ->setParameter('shipping', ShipmentInterfaceAlias::STATE_SHIPPED)
             ->setParameter('from', $from)
             ->setParameter('to', $to)
             ->setParameter('channels', $channelsIds)
